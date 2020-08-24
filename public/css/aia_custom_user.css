@@ -1,0 +1,50 @@
+* {
+    font-family: "Cairo", sans-serif;
+}
+
+/* HEADER */
+.hero-image {
+    background-image: url("/storage/application/books.jpg");
+    height: 60vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(255, 182, 6, 0.8);
+}
+
+.search-field {
+    border: none;
+    border-radius: 50px;
+}
+
+@media screen and (min-width: 400px) {
+    .title {
+        font-size: 32px;
+    }
+}
+@media screen and (min-width: 800px) {
+    .title {
+        font-size: 56px;
+    }
+}
+
+.toolbar {
+    background-color: #111;
+    color: #ababab;
+    font-size: 12px;
+}
+.toolbar {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 30px;
+    font-weight: 700;
+}

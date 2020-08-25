@@ -57,6 +57,23 @@ class BookController extends Controller
         return ['books' => $books_array];
     }
 
+    public function getByCatg($catId)
+    {
+        $books_array = [];
+        $books = Book::where('category_id', '=', $catId)->latest()->get();
+        foreach ($books as $book) {
+
+            array_push($books_array, [
+                'book' => $book,
+                'publisher' => $book->publisher,
+                'category' => $book->category,
+                'authors' => $book->authors
+            ]);
+        }
+
+        return ['books' => $books_array];
+    }
+
     public function getByKey($key)
     {
         $books = Book::leftJoin('categories', 'categories.id', '=', 'books.category_id')

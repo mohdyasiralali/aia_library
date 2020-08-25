@@ -46,6 +46,7 @@ Route::prefix('/api')->group(function () {
 
     Route::get('/books/get', 'BookController@get');
     Route::get('/books/get/{Key}', 'BookController@getByKey');
+    Route::get('/books/get/catgs/{Key}', 'BookController@getByCatg');
     Route::get('/books/cp/get/{Key}', 'BookController@getCPByKey');
     Route::post('/book/store', 'BookController@store');
     Route::post('/book/update/{book}', 'BookController@update');

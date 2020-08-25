@@ -83067,10 +83067,28 @@ var Router = /*#__PURE__*/function (_React$Component) {
       this.serachBooks(event.target.value);
     }
   }, {
+    key: "onChangeSelectCat",
+    value: function onChangeSelectCat(catId) {
+      var _this4 = this;
+
+      if (catId === "default") {
+        this.getBooks();
+      } else {
+        axios.get("/api/books/get/catgs/" + catId).then(function (response) {
+          console.log(response.data);
+
+          _this4.setState({
+            books: response.data.books
+          });
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Header__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        onChangeSearch: this.onChangeSearch.bind(this)
+        onChangeSearch: this.onChangeSearch.bind(this),
+        onChangeSelectCat: this.onChangeSelectCat.bind(this)
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Books__WEBPACK_IMPORTED_MODULE_3__["default"], {
         books: this.state.books
       }));
@@ -84977,15 +84995,55 @@ var Header = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(Header);
 
   function Header(props) {
+    var _this;
+
     _classCallCheck(this, Header);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.state = {
+      categories: []
+    };
+    return _this;
   }
 
   _createClass(Header, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getCategories();
+    }
+  }, {
+    key: "getCategories",
+    value: function getCategories() {
+      var _this2 = this;
+
+      axios.get("/api/category/get_all").then(function (response) {
+        _this2.setState({
+          categories: response.data
+        });
+      });
+    }
+  }, {
     key: "onChangeSearch",
     value: function onChangeSearch(event) {
       this.props.onChangeSearch(event);
+    }
+  }, {
+    key: "renderCategoriesOptions",
+    value: function renderCategoriesOptions() {
+      if (this.state.categories.length !== 0) {
+        return this.state.categories.map(function (category) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            key: category.id,
+            value: category.id
+          }, category.title);
+        });
+      }
+    }
+  }, {
+    key: "onChangeSelectCat",
+    value: function onChangeSelectCat(event) {
+      event.preventDefault();
+      this.props.onChangeSelectCat(event.target.value);
     }
   }, {
     key: "render",
@@ -84994,10 +85052,31 @@ var Header = /*#__PURE__*/function (_React$Component) {
         className: "toolbar"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "https://aiacademy.info/",
         className: "text-white"
-      }, "\u0627\u0644\u0635\u0641\u062D\u0629 \u0627\u0644\u0631\u0626\u064A\u0633\u064A\u0629"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "\u0627\u0644\u0635\u0641\u062D\u0629 \u0627\u0644\u0631\u0626\u064A\u0633\u064A\u0629"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-inline"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        name: "category",
+        className: "toolbar-select text-white ml-2",
+        defaultValue: "default",
+        onChange: this.onChangeSelectCat.bind(this)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "default"
+      }, "\u062C\u0645\u064A\u0639 \u0627\u0644\u0623\u0642\u0633\u0627\u0645"), this.renderCategoriesOptions()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__["FontAwesomeIcon"], {
+        icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faCaretDown"]
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-6 text-right"
+      }, "\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "mx-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__["FontAwesomeIcon"], {
+        icon: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faPhoneAlt"]
+      })), "00201221481731")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "hero-image"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "overlay h-100"

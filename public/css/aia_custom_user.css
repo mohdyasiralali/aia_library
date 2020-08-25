@@ -48,3 +48,8 @@
     line-height: 30px;
     font-weight: 700;
 }
+.toolbar-select {
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+}

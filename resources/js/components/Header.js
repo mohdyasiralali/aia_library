@@ -4,16 +4,48 @@ import {
     faSearch,
     faGraduationCap,
     faGlobeAsia,
-    faUniversalAccess
+    faUniversalAccess,
+    faPhoneAlt,
+    faCaretDown
 } from "@fortawesome/free-solid-svg-icons";
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            categories: []
+        };
+    }
+    componentDidMount() {
+        this.getCategories();
+    }
+
+    getCategories() {
+        axios.get("/api/category/get_all").then(response => {
+            this.setState({ categories: response.data });
+        });
     }
 
     onChangeSearch(event) {
         this.props.onChangeSearch(event);
+    }
+
+    renderCategoriesOptions() {
+        if (this.state.categories.length !== 0) {
+            return this.state.categories.map(category => {
+                return (
+                    <option key={category.id} value={category.id}>
+                        {category.title}
+                    </option>
+                );
+            });
+        }
+    }
+
+
+    onChangeSelectCat(event){
+        event.preventDefault();
+        this.props.onChangeSelectCat(event.target.value);        
     }
 
     render() {
@@ -21,12 +53,40 @@ class Header extends React.Component {
             <section>
                 <div className="toolbar">
                     <div className="container">
-                        <a
-                            href="https://aiacademy.info/"
-                            className="text-white"
-                        >
-                            الصفحة الرئيسية
-                        </a>
+                        <div className="row">
+                            <div className="col-6">
+                                <a
+                                    href="https://aiacademy.info/"
+                                    className="text-white"
+                                >
+                                    الصفحة الرئيسية
+                                </a>
+
+                                <div className="d-inline">
+                                    <select
+                                        name="category"
+                                        className="toolbar-select text-white ml-2"
+                                        defaultValue="default"
+                                        onChange={this.onChangeSelectCat.bind(this)}
+                                    >
+                                        <option value="default">
+                                            جميع الأقسام
+                                        </option>
+                                        {this.renderCategoriesOptions()}
+                                    </select>
+                                    <span>
+                                        <FontAwesomeIcon icon={faCaretDown} />
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="col-6 text-right">
+                                تواصل معنا
+                                <span className="mx-2">
+                                    <FontAwesomeIcon icon={faPhoneAlt} />
+                                </span>
+                                00201221481731
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="hero-image">

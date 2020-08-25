@@ -38,15 +38,25 @@ class Router extends React.Component {
         this.serachBooks(event.target.value);
     }
 
+    onChangeSelectCat(catId) {
+        if (catId === "default") {
+            this.getBooks();
+        } else {
+            axios.get("/api/books/get/catgs/" + catId).then(response => {
+                console.log(response.data)
+                this.setState({ books: response.data.books });
+            });
+        }
+    }
+
     render() {
         return (
             <div>
                 <Header
                     onChangeSearch={this.onChangeSearch.bind(this)}
+                    onChangeSelectCat={this.onChangeSelectCat.bind(this)}
                 ></Header>
-                <Books
-                    books={this.state.books}
-                ></Books>
+                <Books books={this.state.books}></Books>
             </div>
         );
     }
